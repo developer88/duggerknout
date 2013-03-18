@@ -6,12 +6,13 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/duggerknout.css" rel="stylesheet" media="screen">
   </head>
+  <body>
     <div class='duggerknout-container'>
       <div class="navbar">
         <div class="navbar-inner">
           <a class="brand" href="#">Duggerknout</a>
           <ul class="nav">
-            <li><a href="#" class="load-map">Load Map</a></li>
+            <li><a href="#loadMapModal" class="load-map" data-toggle="modal">Load Map</a></li>
           </ul>
         </div>
       </div>
@@ -32,17 +33,43 @@
             </p>
           </div>
           <div class="span10">
+            <div id="gmap-container" class="map-container"></div>
             <!--Body content-->
           </div>
         </div>
       </div>
     </div>
+    <!-- Modal window -->
+    <div id="loadMapModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loadMapModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="loadMapModalLabel">Load </h3>
+      </div>
+      <div class="modal-body">
+        <p>One fine body…</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Process</button>
+      </div>
+    </div>    
     <!-- Javascript staff -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="sources/duggerknout.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBwT33PVGo0EVmJ2U0DC98uLN553xIZac&sensor=true">
+    </script>    
+    <script src="sources/dugger.js"></script>
+    <!--<script src="sources/knout.js"></script>-->
+
     <script>
-        
+      $(document).ready(function() {
+        var dugger = new Dugger({
+          'dom': document.getElementById("gmap-container")
+        });
+        $(".load-map").click(function(){
+
+        });
+      });
     </script>
   </body>
 </html>
