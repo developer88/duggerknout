@@ -43,14 +43,19 @@
     <div id="loadMapModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loadMapModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="loadMapModalLabel">Load </h3>
+        <h3 id="loadMapModalLabel">Load Map</h3>
       </div>
       <div class="modal-body">
-        <p>One fine body…</p>
+        <p>
+          <div class="explain_kml_data"></div>
+          <div class="control-group">
+            <input type="text" placeholder="Type kml or GeoRSS url here..." id="kml_url" />
+          </div>
+        </p>
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary">Process</button>
+        <button class="btn btn-primary process-map-btn">Process</button>
       </div>
     </div>    
     <!-- Javascript staff -->
@@ -63,12 +68,48 @@
 
     <script>
       $(document).ready(function() {
+
+        // initialize Dugger
         var dugger = new Dugger({
           'dom': document.getElementById("gmap-container")
         });
-        $(".load-map").click(function(){
 
+        // Process KML Map
+        $(".process-map-btn").click(function(){
+          if(validate_map_source_field('#kml_url')){
+            dugger.load_map($('#kml_url').val());
+            $('#loadMapModal').modal('hide');
+            //clean_modal();
+          }
         });
+
+        // Validate url field for modal
+        function validate_map_source_field(dom) {
+          if($(dom).val().length == 0){
+            $(dom).parent().addClass("error");
+            return false;
+          }else{
+            $(dom).parent().removeClass("error");
+            return true;
+          }
+        }
+
+        // Clean up modal when hidden
+        $('#loadMapModal').on('hidden', function () {
+          clean_modal();
+        })
+
+        // Clean up modal when shown
+        $('#loadMapModal').on('show', function () {
+          clean_modal();
+        })        
+
+        // Clean up modal
+        function clean_modal() {
+          $('#kml_url').parent().removeClass("error");
+          $('#kml_url').val('');
+        }
+
       });
     </script>
   </body>

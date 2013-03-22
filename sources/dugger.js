@@ -9,6 +9,7 @@
       this.check_options();
       this.initialize_map();
       this.loaded = false;
+      this.georssLayer = null;
     }
 
     Dugger.prototype.check_options = function() {
@@ -27,7 +28,10 @@
       return this.map = new google.maps.Map(this.options['dom'], mapOptions);
     };
 
-    Dugger.prototype.load_map = function(params) {};
+    Dugger.prototype.load_map = function(url) {
+      this.georssLayer = new google.maps.KmlLayer(url);
+      return this.georssLayer.setMap(this.map);
+    };
 
     Dugger.prototype.map = function() {};
 

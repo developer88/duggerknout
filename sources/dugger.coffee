@@ -5,6 +5,7 @@ class Dugger
     @check_options()
     @initialize_map()
     @loaded = false
+    @georssLayer = null
 
 
   check_options: ->
@@ -19,7 +20,10 @@ class Dugger
     }
     @map = new google.maps.Map(@options['dom'], mapOptions)
 
-  load_map: (params) ->
+  load_map: (url) ->
+    @georssLayer = new google.maps.KmlLayer(url)
+    @georssLayer.setMap(@map)
+
 
   map: ->
 
