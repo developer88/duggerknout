@@ -10,6 +10,7 @@
       this.initialize_map();
       this.loaded = false;
       this.georssLayer = null;
+      this.data = null;
     }
 
     Dugger.prototype.check_options = function() {
@@ -21,29 +22,50 @@
     Dugger.prototype.initialize_map = function() {
       var mapOptions;
       mapOptions = {
-        zoom: 8,
-        center: new google.maps.LatLng(-34.397, 150.644),
+        maxZoom: 12,
+        zoom: 9,
+        center: new google.maps.LatLng(55.738673, 37.593774),
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       return this.map = new google.maps.Map(this.options['dom'], mapOptions);
     };
 
-    Dugger.prototype.load_map = function(url) {
+    Dugger.prototype.load_map = function(url, callback) {
+      var _this = this;
+      this.clean_up();
+      console.log(callback);
+      console.log(url);
       this.georssLayer = new google.maps.KmlLayer(url);
-      return this.georssLayer.setMap(this.map);
+      this.georssLayer.setMap(this.map);
+      return google.maps.event.addListener(this.georssLayer, "metadata_changed", function() {
+        console.debug("metadata_changed");
+        _this.data = _this.georssLayer.getMetadata();
+        _this.loaded = true;
+        return callback(_this.data);
+      });
     };
 
-    Dugger.prototype.map = function() {};
+    Dugger.prototype.object = function() {
+      return this.map;
+    };
 
     Dugger.prototype.close_map = function() {};
 
     Dugger.prototype.markers = function() {};
 
-    Dugger.prototype.data = function() {};
+    Dugger.prototype.data = function() {
+      return this.data;
+    };
 
     Dugger.prototype.routes = function() {};
 
     Dugger.prototype.export_map = function() {};
+
+    Dugger.prototype.clean_up = function() {
+      if (this.georssLayer) {
+        return this.georssLayer.setMap(null);
+      }
+    };
 
     return Dugger;
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Duggerknout - create route for your Google Map</title>
+    <title>DuggerKnout - create route for your Google Map</title>
     <!-- Stylesheets -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/duggerknout.css" rel="stylesheet" media="screen">
@@ -10,7 +10,7 @@
     <div class='duggerknout-container'>
       <div class="navbar">
         <div class="navbar-inner">
-          <a class="brand" href="#">Duggerknout</a>
+          <a class="brand" href="#">DuggerKnout</a>
           <ul class="nav">
             <li><a href="#loadMapModal" class="load-map" data-toggle="modal">Load Map</a></li>
           </ul>
@@ -23,7 +23,7 @@
 
             </div>
             <div class='routes'>
-              <div class="alert alert-info">
+              <div class="alert alert-info sidebar-helper">
                 Please load map to start creating routes!
               </div>
             </div>
@@ -33,7 +33,7 @@
             </p>
           </div>
           <div class="span10">
-            <div id="gmap-container" class="map-container"></div>
+            <div id="map_canvas" class="map-container"></div>
             <!--Body content-->
           </div>
         </div>
@@ -64,51 +64,18 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBwT33PVGo0EVmJ2U0DC98uLN553xIZac&sensor=true">
     </script>    
     <script src="sources/dugger.js"></script>
-    <!--<script src="sources/knout.js"></script>-->
+    <script src="sources/knout.js"></script>
+    <script src="sources/ui.js"></script>
 
     <script>
       $(document).ready(function() {
-
         // initialize Dugger
         var dugger = new Dugger({
-          'dom': document.getElementById("gmap-container")
+          'dom': document.getElementById("map_canvas")
         });
 
-        // Process KML Map
-        $(".process-map-btn").click(function(){
-          if(validate_map_source_field('#kml_url')){
-            dugger.load_map($('#kml_url').val());
-            $('#loadMapModal').modal('hide');
-            //clean_modal();
-          }
-        });
-
-        // Validate url field for modal
-        function validate_map_source_field(dom) {
-          if($(dom).val().length == 0){
-            $(dom).parent().addClass("error");
-            return false;
-          }else{
-            $(dom).parent().removeClass("error");
-            return true;
-          }
-        }
-
-        // Clean up modal when hidden
-        $('#loadMapModal').on('hidden', function () {
-          clean_modal();
-        })
-
-        // Clean up modal when shown
-        $('#loadMapModal').on('show', function () {
-          clean_modal();
-        })        
-
-        // Clean up modal
-        function clean_modal() {
-          $('#kml_url').parent().removeClass("error");
-          $('#kml_url').val('');
-        }
+        // initialize UI class
+        var ui = new UI(dugger);
 
       });
     </script>
